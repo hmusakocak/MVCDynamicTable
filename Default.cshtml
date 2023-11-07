@@ -1,0 +1,140 @@
+﻿@using System.Text;
+
+@{
+    //dynamic button and prop listing algorithm
+}
+
+@model Tuple<object, List<object>>
+
+@{
+    //base entity indexer - prop list w/ ids - counter
+
+    var base_entities_index = new List<int>();
+    var ct = 0;
+    var prop_list_withoutIds = Model.Item1.GetType().GetProperties().Where(a => !a.Name.Contains("Id") && a.PropertyType.BaseType?.Name != null);
+
+    //etc typeof(BaseEntity)
+    if (Model.Item1 != null && Model.Item1.GetType().BaseType == typeof(/*Your base class*/))
+    {
+        <h3 style="text-align:center">@Model.Item1.GetType().Name Tablosu</h3>
+        <table class="table">
+            <tr>
+                @foreach (var item in prop_list_withoutIds)
+                {
+                    ct++;
+                    if (item.PropertyType.BaseType == typeof(/*Your base class*/))
+                    {
+                        <th>@item.Name (derived from your base class name)</th>
+                        base_entities_index.Add(ct);
+                        continue;
+                    }
+                    <th>@item.Name</th>
+                }
+            </tr>
+            @foreach (var list_items in Model.Item2)
+            {
+                <tr>
+                    @{
+                        List<int> countlist = new List<int>();
+                        countlist.AddRange(Enumerable.Range(1, prop_list_withoutIds.Count()));
+
+                        //comparison beetwen indexes and total property count.
+                        //total properties are indexed 1 to count of property list.
+                        //While indexes are equal, algoritm puts a button which one can call ModalBox.
+
+                        foreach (var item in countlist)
+                        {
+                            StringBuilder sb = new StringBuilder();
+
+                            if (base_entities_index.Contains(item))
+                            {
+                                string ModalboxName = Model.Item1.GetType().GetProperties().Where(a => !a.Name.Contains("Id")).ElementAt(item - 1).PropertyType.Name;
+                                @foreach (var derivated_entity_props in Model.Item1.GetType().GetProperties().Where(a => !a.Name.Contains("Id")).ElementAt(item - 1).PropertyType.GetProperties())
+                                {
+                                    sb.Append("<tr>");
+                                    if (!derivated_entity_props.Name.Contains("Id"))
+                                    {
+                                        if (derivated_entity_props.PropertyType.BaseType?.Name == "Your base class name here" || derivated_entity_props.PropertyType.BaseType?.Name == null)
+                                        { continue; };
+                                        sb.Append("<th>");
+                                        sb.Append("<b style=\"color:Tomato\">" + derivated_entity_props.Name + "</b> : " + "<b style=\"color:gray\">" +
+                                        @list_items.GetType().GetProperty(prop_list_withoutIds.ElementAt(item - 1).Name)?.
+                                        GetValue(list_items, null)?.GetType().GetProperty(derivated_entity_props.Name)?.
+                                        GetValue(list_items.GetType().GetProperty(prop_list_withoutIds.ElementAt(item - 1).Name)?.
+                                        GetValue(list_items, null),null) + "</b>");
+                                        sb.Append("</th>");
+                                    }
+                                    sb.Append("</tr>");
+                                }
+                                <td>
+                                    <button onclick="ModalCreate('@ModalboxName','@sb.ToString()');" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                                        <b>Göster</b>
+                                    </button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td><b>@list_items.GetType().GetProperty(prop_list_withoutIds.ElementAt(item-1).Name)?.GetValue(list_items,null)?.ToString()</b></td>
+                            }
+                        }
+                    }
+                </tr>
+            }
+        </table>
+    }
+}
+
+<div class="modal fade" id="myModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div style="text-align:center" class="my-modal-header">
+                <h1 class="modal-title fs-5" id="ModalLabel"></h1>
+            </div>
+            <div id="ModalBody" class="modal-body">
+                <table id="modalTable" class="table">
+                </table>
+            </div>
+            <div class="modal-footer align-items-center justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">X</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ModalCreate(name, tabledata) {
+        let temp = name.toLowerCase();
+        document.getElementById("ModalLabel").innerHTML = "<b style=\"color:darkred\"><ins>" + name + "</ins> Info Page</b>";
+        document.getElementById("modalTable").innerHTML = tabledata;
+    }
+</script>
+
+<style>
+    .my-modal-header {
+        text-align: center;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1rem;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: calc(0.3rem - 1px);
+        border-top-right-radius: calc(0.3rem - 1px);
+    }
+    table {
+        text-align: center;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td {
+        text-align: center;
+       vertical-align: middle;
+    }
+
+    th {
+        color:darkred;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
