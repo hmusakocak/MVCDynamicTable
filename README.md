@@ -25,7 +25,7 @@ Creating a one-to-one relationship requires Id and object. This dynamic table st
 - File system should be like this :
 ![image](https://github.com/glitchedpng/MVCDynamicTable/assets/61805121/5d835620-a098-4419-ba20-1d0debc3274a)
 ![image](https://github.com/glitchedpng/MVCDynamicTable/assets/61805121/10b5e3a1-d711-4fd8-a384-c757a8dba851)
-(Shared file is located inside of the Views. )
+- (Shared file is located inside of the Views. )
 
 -You need to call component in View that you want to use. 
  - ```@await Component.InvokeAsync("DynamicTable", Model)``` <= Use this code in View that you created from Controller.
