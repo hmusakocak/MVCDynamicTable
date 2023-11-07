@@ -6,6 +6,7 @@
 <b><ins>İmportant!</ins></b>
 -
 
+- REPLACE ALL NAMESPACES!!!!
 - You must have a base class from which other classes are derived.
 - All of your entities must be derived from your base class.
 - Your entities should have Id property. This property must be named as <b>Id</b> because in EFCore, relationships of entities is realized like this;
