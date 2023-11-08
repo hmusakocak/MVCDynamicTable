@@ -15,7 +15,7 @@
 public int FaultId { get; set; }
 public Fault Fault { get; set; }
 ```
-Creating a one-to-one relationship requires Id and object. This dynamic table structure deletes this Id properties from table for security.
+<ins>Creating a one-to-one relationship requires Id and object. This dynamic table structure deletes this Id properties from table for security.</ins>
 
 <b><ins>How to Use</ins></b>
 - 
@@ -28,10 +28,10 @@ Creating a one-to-one relationship requires Id and object. This dynamic table st
 ![image](https://github.com/glitchedpng/MVCDynamicTable/assets/61805121/10b5e3a1-d711-4fd8-a384-c757a8dba851)
 - (Shared file is located inside of the Views. )
 
--You need to call component in View that you want to use. 
- - ```@await Component.InvokeAsync("DynamicTable", Model)``` <= Use this code in View that you created from Controller.
- - In your controller, you need to send a object instance and List of this object as model.
-    -  ```return View(Tuple.Create<object, List<object>>(new Customer(), list.Cast<object>().ToList()));``` <= In example code, object is Customer and list is filled with Customer objects.(list is ```List<Customer>```)
+- You need to call component in View that you want to use. 
+  - ```@await Component.InvokeAsync("DynamicTable", Model)``` <= Use this code in View that you created from Controller.
+   - In your controller, you need to send a object instance and List of this object as model.
+       -  ```return View(Tuple.Create<object, List<object>>(new Customer(), list.Cast<object>().ToList()));``` <= In example code, object is Customer and list is filled with Customer objects.(list is ```List<Customer>```)
  - In Default.cshtml, you need to put your base class instead of "BaseEntity".
   <br>
   
