@@ -22,9 +22,8 @@ public Customer : BaseEntity{
 public Address Address { get; set; }
 
 }
-
--------------------------------
-
+```
+```csharp
 public Address : BaseEntity{
 
 public int Id { get; set; }
