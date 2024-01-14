@@ -18,18 +18,27 @@ public Fault Fault { get; set; }
 
 ```csharp
 public Customer : BaseEntity{
+
 public Address Address { get; set; }
+
 }
 
+-------------------------------
+
 public Address : BaseEntity{
+
 public int Id { get; set; }
+
 public string Street { get; set; }
+
 public string ZipCode { get; set; }
+
 public string Country { get; set; }
+
 }
 ```
-<ins>According to classes named Address and Customer, you will see customer informations but there will be a button named 'GÖSTER' at address cell. If you click, address informations will be displayed at modalbox. This happens because of BaseEntity.</ins><br>
-<ins>If you want to see a property that initialized as class and want to see in modalbox, you need to inherit it from BaseEntity class.</ins><br>
+<b>According to classes named Address and Customer, you will see customer informations but there will be a button named 'GÖSTER' at address cell. If you click, address informations will be displayed at modalbox. This happens because of BaseEntity.</b><br><br>
+<b>If you want to see a property that initialized as class and want to see in modalbox, you need to inherit it from BaseEntity class.</b><br><br>
 <ins>Creating a one-to-one relationship requires Id and object. This dynamic table structure deletes this Id properties from table for security.</ins>
 
 <b><ins>How to Use</ins></b>
